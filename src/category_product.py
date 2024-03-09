@@ -4,7 +4,9 @@ class Category:
     descriptions = str
     goods = list
 
+    # Артибут класса, подсчет количества категорий
     number_of_categories = 0
+    # Атрибут класса, подсчет количества уникальных товаров
     number_of_uniq_goods = 0
 
     def __init__(self, name, description, goods):
@@ -14,7 +16,7 @@ class Category:
         self.goods = goods
 
         Category.number_of_categories += 1
-        Category.number_of_uniq_goods += len(self.goods)
+        Category.number_of_uniq_goods += len(set(self.goods))
 
 
 class Product:
