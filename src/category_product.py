@@ -16,6 +16,7 @@ class Category:
         Category.number_of_categories += 1
         Category.number_of_uniq_goods += len(self.goods)
 
+
 class Product:
     """Класс для представлени продукта"""
     name = str
