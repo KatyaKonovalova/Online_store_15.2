@@ -13,10 +13,16 @@ class Category:
         """Метод для инициализации экземпляра класса"""
         self.name = name
         self.descriptions = description
-        self.goods = goods
+        self.__goods = goods
 
         Category.number_of_categories += 1
         Category.number_of_uniq_goods += len(set(self.goods))
+
+    def add_good(self, good):
+        self.__goods.append(good)
+        return self.__goods
+
+
 
 
 class Product:
