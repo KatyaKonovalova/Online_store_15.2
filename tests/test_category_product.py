@@ -30,3 +30,10 @@ def test_init_product(product_items):
     assert product_items.price == 180000.0
     assert product_items.quantity_in_stock == 5
 
+
+def test_number_of_categories():
+    assert Category.number_of_categories == 3
+
+
+def test_number_of_uniq_goods():
+    assert Category.number_of_uniq_goods == 7
