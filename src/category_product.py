@@ -33,6 +33,9 @@ class Category:
             else:
                 self.__goods[new_prod.name] = new_prod
 
+    def get_product_by_name(self, name: str):
+        return self.__goods[name]
+
     def counting_goods(self):
         """Подсчет числа уникальных товаров в списке"""
         return len(self.__goods)
@@ -65,7 +68,7 @@ class Product:
 
     @classmethod
     def new_good(cls, name, description, price, quantity_in_stock):
-        """Создание нового товара. @classmethod используем, потому что нам провести инициализацию"""
+        """Создание нового товара. @classmethod используем, чтобы нам провести инициализацию"""
         return cls(name, description, price, quantity_in_stock)
 
     @property
@@ -105,13 +108,14 @@ category_2.add_product(product_4)
 
 print(category_2.products)
 print(category_1.products)
+print(category_1.get_product_by_name('Iphone 15'))
 
 product_5 = Product.new_good('Nokia', '2', 1.0, 5)
 product_6 = Product.new_good('Nokia', '2', 23.0, 8)
 category_1.add_product(product_5, product_6)
 print(category_1.products)
 
-product_1.price = float(input('Введите цену: '))
+#product_1.price = float(input('Введите цену: '))
 print(category_1.products)
 
 print('Количество продуктов: ', Category.number_of_uniq_goods)

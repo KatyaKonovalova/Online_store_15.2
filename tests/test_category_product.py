@@ -37,3 +37,16 @@ def test_number_of_categories():
 
 def test_number_of_uniq_goods():
     assert Category.number_of_uniq_goods == 7
+
+
+def test_add_product():
+    """givenCatalogWithExistingProduct_whenUpdateProduct_thenProductInCatalogHasMaxCostAndSumQuantity"""
+    # given
+    category = Category("testCategoty", "test", [])
+    category.add_product(Product("testName", "testDesc", 10, 3))
+    # when
+    category.add_product(Product("testName", "testDesc", 20, 4))
+    # then
+    product_in_catalog = category.get_product_by_name('testName')
+    assert product_in_catalog.price == 20
+    assert product_in_catalog.quantity_in_stock == 7
