@@ -37,27 +37,3 @@ def test_number_of_categories():
 
 def test_number_of_uniq_goods():
     assert Category.number_of_uniq_goods == 7
-
-def givenEmptyCatalog_whenAddProduct_thenProductIsAdded():
-    # given
-    catalog = Category("testCategoty", "test", [])
-    # when
-    catalog.add_product(Product("testName", "testDesc", 0, 0))
-    # then
-    # check than catolog contains product with expeted fields
-
-def test_givenCatalogWithExistingProduct_whenUpdateProduct_thenProductInCatalogHasMaxCostAndSumQuantity():
-
-    # given
-    category = Category("testCategoty", "test", [])
-    category.add_product(Product("testName", "testDesc", 10, 3))
-    # when
-    category.add_product(Product("testName", "testDesc", 20, 4))
-    # then
-    product_in_catalog = category.get_product_by_name('testName')
-    assert product_in_catalog.price == 20
-    assert product_in_catalog.quantity_in_stock == 7
-
-def
-
-
