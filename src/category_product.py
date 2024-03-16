@@ -1,7 +1,7 @@
 class Category:
     """Класс для представления категории продукта"""
     name = str
-    descriptions = str
+    description = str
     goods_list = list
 
     # Артибут класса, подсчет количества категорий
@@ -32,6 +32,9 @@ class Category:
                                                       new_prod.quantity_in_stock + stored_product.quantity_in_stock)
             else:
                 self.__goods[new_prod.name] = new_prod
+
+    def get_goods_list(self, __goods_list):
+        return self.__goods[__goods_list]
 
     def get_product_by_name(self, name: str):
         return self.__goods[name]
@@ -115,7 +118,7 @@ product_6 = Product.new_good('Nokia', '2', 23.0, 8)
 category_1.add_product(product_5, product_6)
 print(category_1.products)
 
-#product_1.price = float(input('Введите цену: '))
+# product_1.price = float(input('Введите цену: '))
 print(category_1.products)
 
 print('Количество продуктов: ', Category.number_of_uniq_goods)

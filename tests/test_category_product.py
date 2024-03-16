@@ -16,15 +16,12 @@ def product_items():
 
 
 def test_init_category(category_items):
-
     assert category_items.name == 'Смартфоны'
-    assert category_items.descriptions == ('Смартфоны, как средство не только коммуникации, но и получение '
-                                           'дополнительных функций для удобства жизни')
-    assert category_items.goods == ['Samsung Galaxy C23 Ultra', 'Iphone 15', 'Xiaomi Redmi Note 11']
+    assert category_items.description == ('Смартфоны, как средство не только коммуникации, но и получение '
+                                          'дополнительных функций для удобства жизни')
 
 
 def test_init_product(product_items):
-
     assert product_items.name == 'Samsung Galaxy C23 Ultra'
     assert product_items.description == '256GB, Серый цвет, 200MP камера'
     assert product_items.price == 180000.0
@@ -40,13 +37,21 @@ def test_number_of_uniq_goods():
 
 
 def test_add_product():
-    """givenCatalogWithExistingProduct_whenUpdateProduct_thenProductInCatalogHasMaxCostAndSumQuantity"""
+    """givenCategoryWithExistingProduct_whenUpdateProduct_thenProductInCatalogHasMaxCostAndSumQuantity"""
     # given
-    category = Category("testCategoty", "test", [])
-    category.add_product(Product("testName", "testDesc", 10, 3))
+    category = Category("test_category", "test_desc", [])
+    category.add_product(Product("test_name", "test_desc", 10, 3))
     # when
-    category.add_product(Product("testName", "testDesc", 20, 4))
+    category.add_product(Product("test_name", "test_desc", 20, 4))
     # then
-    product_in_catalog = category.get_product_by_name('testName')
+    product_in_catalog = category.get_product_by_name('test_name')
     assert product_in_catalog.price == 20
     assert product_in_catalog.quantity_in_stock == 7
+
+
+def test_products():
+    # given
+    category = Category("test_category", "test_desc", [])
+    category.add_product(Product("test_name", "test_desc", 10, 3))
+    # then
+    assert category.products == '\nКатегория: test_category\ntest_name, 10 руб. Остаток: 3 шт.\n'
