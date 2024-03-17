@@ -33,6 +33,7 @@ class Category:
             else:
                 self.__goods[new_prod.name] = new_prod
 
+    @property
     def get_goods_list(self, __goods_list):
         return self.__goods[__goods_list]
 
@@ -48,8 +49,18 @@ class Category:
         """Вывод товаров содержащихся в словаре self.__goods в нужном формате"""
         result = f'\nКатегория: {self.name}\n'
         for prod in self.__goods.values():
-            result += f'{prod.name}, {prod.price} руб. Остаток: {prod.quantity_in_stock} шт.\n'
+            result += f'{prod}\n'
         return result
+
+    def __str__(self):
+        return f'{self.name}, количество продуктов: {len(self)} шт.'
+
+    def __len__(self):
+        """Общее количество всех товаров категории на складе"""
+        all_quantity = 0
+        for prod in self.__goods.values():
+            all_quantity += prod.quantity_in_stock
+        return all_quantity
 
 
 class Product:
@@ -68,6 +79,9 @@ class Product:
 
     def __repr__(self):
         return f'Product({self.name}, {self.description}, {self.__price}, {self.quantity_in_stock})'
+
+    def __str__(self):
+        return f'{self.name}, {self.price} руб. Остаток: {self.quantity_in_stock} шт.'
 
     @classmethod
     def new_good(cls, name, description, price, quantity_in_stock):
@@ -96,6 +110,11 @@ class Product:
                     return
             self.__price = new_price
 
+    def __add__(self, other):
+        """Нахождение общей стоимости суммы двух типов товаров на складе"""
+        result = self.price * self.quantity_in_stock + other.price * other.quantity_in_stock
+        return result
+
 
 category_1 = Category('Смартфоны', 'Смартфоны, как средство не только коммуникации, но и получение'
                                    ' дополнительных функций для удобства жизни', ['Samsung Galaxy C23 Ultra',
@@ -108,18 +127,18 @@ product_3 = Product('Xiaomi Redmi Note 11', '1024GB, Синий', 31000.0, 14)
 product_4 = Product('55" QLED 4K', 'Фоновая подсветка', 123000.0, 7)
 category_1.add_product(product_1, product_2, product_3)
 category_2.add_product(product_4)
+print(product_1)
+print(category_1)
+print(category_1.get_product_by_name('Iphone 15'))
 
 print(category_2.products)
 print(category_1.products)
-print(category_1.get_product_by_name('Iphone 15'))
 
 product_5 = Product.new_good('Nokia', '2', 1.0, 5)
 product_6 = Product.new_good('Nokia', '2', 23.0, 8)
 category_1.add_product(product_5, product_6)
-print(category_1.products)
 
 product_1.price = float(input('Введите цену: '))
 print(category_1.products)
 
-print('Количество продуктов: ', Category.number_of_uniq_goods)
-print('Количество категорий: ', Category.number_of_categories)
+print(product_1 + product_2)
