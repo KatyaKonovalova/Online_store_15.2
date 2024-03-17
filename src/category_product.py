@@ -118,7 +118,7 @@ product_6 = Product.new_good('Nokia', '2', 23.0, 8)
 category_1.add_product(product_5, product_6)
 print(category_1.products)
 
-# product_1.price = float(input('Введите цену: '))
+product_1.price = float(input('Введите цену: '))
 print(category_1.products)
 
 print('Количество продуктов: ', Category.number_of_uniq_goods)
