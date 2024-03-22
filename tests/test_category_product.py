@@ -1,6 +1,8 @@
 import pytest
+
 from src.category_product import Category
 from src.category_product import Product
+from src.category_product import Smartphone
 
 
 @pytest.fixture
@@ -15,14 +17,12 @@ def product_item():
 
 
 def test_init_category(category_item):
-
     assert category_item.name == 'Смартфоны'
     assert category_item.description == ('Смартфоны, как средство не только коммуникации, но и получение '
-                                           'дополнительных функций для удобства жизни')
+                                         'дополнительных функций для удобства жизни')
 
 
 def test_init_product(product_item):
-
     assert product_item.name == 'Samsung Galaxy C23 Ultra'
     assert product_item.description == '256GB, Серый цвет, 200MP камера'
     assert product_item.price == 180000.0
@@ -51,8 +51,22 @@ def test_add_product():
 
 
 def test_products():
-    # given
+
     category = Category("test_category", "test_desc", [])
     category.add_product(Product("test_name", "test_desc", 10, 3))
-    # then
+
     assert category.products == '\nКатегория: test_category\ntest_name, 10 руб. Остаток: 3 шт.\n'
+
+
+def test_add_different_classes():
+    smartphone = Smartphone('test_category_s', 'test_desc_s', 1, 2, 1.3, 'test_model_s', 4, 'test_color_s')
+    product = Product("test_name", "test_desc", 5, 6)
+    with pytest.raises(ValueError):
+        smartphone + product
+
+
+def test_add_same_classes():
+    smartphone = Smartphone('test_category_s', 'test_desc_s', 1, 2, 1.3, 'test_model_s', 4, 'test_color_s')
+    product = Product("test_name", "test_desc", 5, 6)
+    assert smartphone.price * smartphone.quantity_in_stock + product.price * product.quantity_in_stock == 32
+

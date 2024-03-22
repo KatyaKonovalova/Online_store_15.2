@@ -25,6 +25,8 @@ class Category:
         """self.__goods - словарь{Название товара(name): данные о товаре(name, description, price, 
         quantity_in_stock)} """
         for new_prod in prods:
+            if not isinstance(new_prod, Product):
+                continue
             if new_prod.name in self.__goods:
                 stored_product = self.__goods[new_prod.name]
                 self.__goods[new_prod.name] = Product(new_prod.name, new_prod.description,
@@ -32,6 +34,7 @@ class Category:
                                                       new_prod.quantity_in_stock + stored_product.quantity_in_stock)
             else:
                 self.__goods[new_prod.name] = new_prod
+
 
     @property
     def get_goods_list(self, __goods_list):
@@ -112,8 +115,32 @@ class Product:
 
     def __add__(self, other):
         """Нахождение общей стоимости суммы двух типов товаров на складе"""
-        result = self.price * self.quantity_in_stock + other.price * other.quantity_in_stock
-        return result
+        if not isinstance(other, type(self)):
+            raise ValueError('Складывать можно только продукты одного класса.')
+        else:
+            result = self.price * self.quantity_in_stock + other.price * other.quantity_in_stock
+            return result
+
+
+class Smartphone(Product):
+    def __init__(self, name, description, price, quantity_in_stock, performance: float, model: str, ram: float,
+                 color: str):
+        super().__init__(name, description, price, quantity_in_stock)
+
+        self.performance = performance
+        self.model = model
+        self.ram = ram
+        self.color = color
+
+
+class Grass(Product):
+    def __int__(self, name, description, price, quantity_in_stock, manufacturer_country: str, growth_period: int,
+                color: str):
+        super().__init__(name, description, price, quantity_in_stock)
+
+        self.manufacturer_country = manufacturer_country
+        self.growth_period = growth_period
+        self.color = color
 
 
 category_1 = Category('Смартфоны', 'Смартфоны, как средство не только коммуникации, но и получение'
@@ -134,11 +161,11 @@ print(category_1.get_product_by_name('Iphone 15'))
 print(category_2.products)
 print(category_1.products)
 
-product_5 = Product.new_good('Nokia', '2', 1.0, 5)
-product_6 = Product.new_good('Nokia', '2', 23.0, 8)
-category_1.add_product(product_5, product_6)
-
-product_1.price = float(input('Введите цену: '))
-print(category_1.products)
+# product_5 = Product.new_good('Nokia', '2', 1.0, 5)
+# product_6 = Product.new_good('Nokia', '2', 23.0, 8)
+# category_1.add_product(product_5, product_6)
+#
+# product_1.price = float(input('Введите цену: '))
+# print(category_1.products)
 
 print(product_1 + product_2)
