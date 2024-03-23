@@ -193,11 +193,11 @@ print(category_2.products)
 print(category_1.products)
 print(product_1.demonstrate_abilities())
 
-# product_5 = Product.new_good('Nokia', '2', 1.0, 5)
-# product_6 = Product.new_good('Nokia', '2', 23.0, 8)
-# category_1.add_product(product_5, product_6)
-#
-# product_1.price = float(input('Введите цену: '))
-# print(category_1.products)
+product_5 = Product.new_good('Nokia', '2', 1.0, 5)
+product_6 = Product.new_good('Nokia', '2', 23.0, 8)
+category_1.add_product(product_5, product_6)
+
+product_1.price = float(input('Введите цену: '))
+print(category_1.products)
 
 print(product_1 + product_2)
