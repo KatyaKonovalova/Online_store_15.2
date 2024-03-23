@@ -1,4 +1,15 @@
-class Category:
+from abc import ABC, abstractmethod
+
+
+class MixinOutput:
+    def __init__(self):
+        print('Объект создан')
+
+    def print_repr(self):
+        print(repr(self))
+
+
+class Category(MixinOutput):
     """Класс для представления категории продукта"""
     name = str
     description = str
@@ -11,6 +22,7 @@ class Category:
 
     def __init__(self, name, description, goods_list):
         """Метод для инициализации экземпляра класса"""
+        super().__init__()
         self.name = name
         self.description = description
         self.__goods_list = goods_list
@@ -18,6 +30,9 @@ class Category:
 
         Category.number_of_categories += 1
         Category.number_of_uniq_goods += len(set(self.__goods_list))
+
+    def __repr__(self):
+        return f'Category({self.name}, {self.description}, {self.__goods})'
 
     def add_product(self, *prods):
         """Добавление нового товара в список. Если такой товар уже есть в self.__goods, выбирается  наибольшее значение
@@ -34,7 +49,6 @@ class Category:
                                                       new_prod.quantity_in_stock + stored_product.quantity_in_stock)
             else:
                 self.__goods[new_prod.name] = new_prod
-
 
     @property
     def get_goods_list(self, __goods_list):
@@ -66,7 +80,14 @@ class Category:
         return all_quantity
 
 
-class Product:
+class AbstractProduct(ABC):
+
+    @abstractmethod
+    def demonstrate_abilities(self):
+        pass
+
+
+class Product(AbstractProduct, MixinOutput):
     """Класс для представлени продукта"""
     name = str
     description = str
@@ -75,6 +96,7 @@ class Product:
 
     def __init__(self, name, description, price, quantity_in_stock):
         """Метод для инициализации экземпляра класса"""
+        super().__init__()
         self.name = name
         self.description = description
         self.__price = price
@@ -85,6 +107,9 @@ class Product:
 
     def __str__(self):
         return f'{self.name}, {self.price} руб. Остаток: {self.quantity_in_stock} шт.'
+
+    def demonstrate_abilities(self):
+        return 'Я продукт'
 
     @classmethod
     def new_good(cls, name, description, price, quantity_in_stock):
@@ -132,6 +157,9 @@ class Smartphone(Product):
         self.ram = ram
         self.color = color
 
+    def demonstrate_abilities(self):
+        return 'Включить камеру и сделать селфи'
+
 
 class Grass(Product):
     def __int__(self, name, description, price, quantity_in_stock, manufacturer_country: str, growth_period: int,
@@ -146,9 +174,12 @@ class Grass(Product):
 category_1 = Category('Смартфоны', 'Смартфоны, как средство не только коммуникации, но и получение'
                                    ' дополнительных функций для удобства жизни', ['Samsung Galaxy C23 Ultra',
                                                                                   'Iphone 15', 'Xiaomi Redmi Note 11'])
+category_1.print_repr()
 category_2 = Category('Телевизоры', 'Современный телевизор, который позволяет наслаждаться просмотром,'
                                     ' станет вашим другом и помощником', ['55" QLED 4K'])
+category_2.print_repr()
 product_1 = Product('Samsung Galaxy C23 Ultra', '256GB, Серый цвет, 200MP камера', 180000.0, 5)
+product_1.print_repr()
 product_2 = Product('Iphone 15', '512GB, Gray space', 210000.0, 8)
 product_3 = Product('Xiaomi Redmi Note 11', '1024GB, Синий', 31000.0, 14)
 product_4 = Product('55" QLED 4K', 'Фоновая подсветка', 123000.0, 7)
@@ -160,12 +191,13 @@ print(category_1.get_product_by_name('Iphone 15'))
 
 print(category_2.products)
 print(category_1.products)
+print(product_1.demonstrate_abilities())
 
-# product_5 = Product.new_good('Nokia', '2', 1.0, 5)
-# product_6 = Product.new_good('Nokia', '2', 23.0, 8)
-# category_1.add_product(product_5, product_6)
-#
-# product_1.price = float(input('Введите цену: '))
-# print(category_1.products)
+product_5 = Product.new_good('Nokia', '2', 1.0, 5)
+product_6 = Product.new_good('Nokia', '2', 23.0, 8)
+category_1.add_product(product_5, product_6)
+
+product_1.price = float(input('Введите цену: '))
+print(category_1.products)
 
 print(product_1 + product_2)
