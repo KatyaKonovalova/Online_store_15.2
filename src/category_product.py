@@ -1,4 +1,11 @@
-class Category:
+from abc import ABC, abstractmethod
+
+
+class MixinOutput:
+    def console_output(self):
+        return 'Объект создан'
+
+class Category(MixinOutput):
     """Класс для представления категории продукта"""
     name = str
     description = str
@@ -66,7 +73,13 @@ class Category:
         return all_quantity
 
 
-class Product:
+class AbstractProduct(ABC):
+
+    @abstractmethod
+    def demonstrate_abilities(self):
+        pass
+
+class Product(AbstractProduct, MixinOutput):
     """Класс для представлени продукта"""
     name = str
     description = str
@@ -85,6 +98,9 @@ class Product:
 
     def __str__(self):
         return f'{self.name}, {self.price} руб. Остаток: {self.quantity_in_stock} шт.'
+
+    def demonstrate_abilities(self):
+        return 'Я продукт'
 
     @classmethod
     def new_good(cls, name, description, price, quantity_in_stock):
@@ -132,6 +148,9 @@ class Smartphone(Product):
         self.ram = ram
         self.color = color
 
+    def demonstrate_abilities(self):
+        return 'Включить камеру и сделать селфи'
+
 
 class Grass(Product):
     def __int__(self, name, description, price, quantity_in_stock, manufacturer_country: str, growth_period: int,
@@ -160,6 +179,7 @@ print(category_1.get_product_by_name('Iphone 15'))
 
 print(category_2.products)
 print(category_1.products)
+print(product_1.demonstrate_abilities())
 
 # product_5 = Product.new_good('Nokia', '2', 1.0, 5)
 # product_6 = Product.new_good('Nokia', '2', 23.0, 8)
