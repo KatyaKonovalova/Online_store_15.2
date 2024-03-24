@@ -42,13 +42,16 @@ class Category(MixinOutput):
         for new_prod in prods:
             if not isinstance(new_prod, Product):
                 continue
-            if new_prod.name in self.__goods:
-                stored_product = self.__goods[new_prod.name]
-                self.__goods[new_prod.name] = Product(new_prod.name, new_prod.description,
-                                                      max(new_prod.price, stored_product.price),
-                                                      new_prod.quantity_in_stock + stored_product.quantity_in_stock)
+            if new_prod.quantity_in_stock == 0:
+                raise ValueError('Товар с нулевым количеством не может быть добавлен')
             else:
-                self.__goods[new_prod.name] = new_prod
+                if new_prod.name in self.__goods:
+                    stored_product = self.__goods[new_prod.name]
+                    self.__goods[new_prod.name] = Product(new_prod.name, new_prod.description,
+                                                          max(new_prod.price, stored_product.price),
+                                                          new_prod.quantity_in_stock + stored_product.quantity_in_stock)
+                else:
+                    self.__goods[new_prod.name] = new_prod
 
     @property
     def get_goods_list(self, __goods_list):
@@ -78,6 +81,20 @@ class Category(MixinOutput):
         for prod in self.__goods.values():
             all_quantity += prod.quantity_in_stock
         return all_quantity
+
+    @property
+    def get_average_price(self):
+        """Расчет средней суммы товаров в списке с использованием блоков исключений try/except"""
+        sum_price = 0
+        try:
+            for prod in self.__goods.values():
+                sum_price += prod.price
+            result = sum_price / len(self.__goods)
+            return result
+        except ZeroDivisionError:
+            print(f"В категории '{self.name}' нет товаров")
+            result = 0
+            return result
 
 
 class AbstractProduct(ABC):
@@ -187,6 +204,9 @@ category_1.add_product(product_1, product_2, product_3)
 category_2.add_product(product_4)
 print(product_1)
 print(category_1)
+print(category_1.get_average_price + category_2.get_average_price)
+
+
 print(category_1.get_product_by_name('Iphone 15'))
 
 print(category_2.products)
