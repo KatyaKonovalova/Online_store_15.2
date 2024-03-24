@@ -157,7 +157,7 @@ class Product(AbstractProduct, MixinOutput):
 
     def __add__(self, other):
         """Нахождение общей стоимости суммы двух типов товаров на складе"""
-        if not isinstance(other, type(self)):
+        if type(self) != type(other):
             raise ValueError('Складывать можно только продукты одного класса.')
         else:
             result = self.price * self.quantity_in_stock + other.price * other.quantity_in_stock
@@ -217,7 +217,7 @@ product_5 = Product.new_good('Nokia', '2', 1.0, 5)
 product_6 = Product.new_good('Nokia', '2', 23.0, 8)
 category_1.add_product(product_5, product_6)
 
-product_1.price = float(input('Введите цену: '))
-print(category_1.products)
-
-print(product_1 + product_2)
+# product_1.price = float(input('Введите цену: '))
+# print(category_1.products)
+#
+# print(product_1 + product_2)
