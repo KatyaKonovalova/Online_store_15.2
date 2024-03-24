@@ -42,13 +42,16 @@ class Category(MixinOutput):
         for new_prod in prods:
             if not isinstance(new_prod, Product):
                 continue
-            if new_prod.name in self.__goods:
-                stored_product = self.__goods[new_prod.name]
-                self.__goods[new_prod.name] = Product(new_prod.name, new_prod.description,
-                                                      max(new_prod.price, stored_product.price),
-                                                      new_prod.quantity_in_stock + stored_product.quantity_in_stock)
+            if new_prod.quantity_in_stock == 0:
+                raise ValueError('Товар с нулевым количеством не может быть добавлен')
             else:
-                self.__goods[new_prod.name] = new_prod
+                if new_prod.name in self.__goods:
+                    stored_product = self.__goods[new_prod.name]
+                    self.__goods[new_prod.name] = Product(new_prod.name, new_prod.description,
+                                                          max(new_prod.price, stored_product.price),
+                                                          new_prod.quantity_in_stock + stored_product.quantity_in_stock)
+                else:
+                    self.__goods[new_prod.name] = new_prod
 
     @property
     def get_goods_list(self, __goods_list):
