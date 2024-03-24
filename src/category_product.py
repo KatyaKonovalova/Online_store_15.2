@@ -84,15 +84,17 @@ class Category(MixinOutput):
 
     @property
     def get_average_price(self):
-        """Расчет средней суммы товаров в списке"""
+        """Расчет средней суммы товаров в списке с использованием блоков исключений try/except"""
         sum_price = 0
-        for prod in self.__goods.values():
-            sum_price += prod.price
-        result = sum_price / len(self.__goods)
-        return result
-
-
-
+        try:
+            for prod in self.__goods.values():
+                sum_price += prod.price
+            result = sum_price / len(self.__goods)
+            return result
+        except ZeroDivisionError:
+            print(f"В категории '{self.name}' нет товаров")
+            result = 0
+            return result
 
 
 class AbstractProduct(ABC):
@@ -202,19 +204,20 @@ category_1.add_product(product_1, product_2, product_3)
 category_2.add_product(product_4)
 print(product_1)
 print(category_1)
-print("!", category_1.get_average_price + category_2.get_average_price)
+print(category_1.get_average_price + category_2.get_average_price)
 
-# print(category_1.get_product_by_name('Iphone 15'))
-#
-# print(category_2.products)
-# print(category_1.products)
-# print(product_1.demonstrate_abilities())
-#
-# product_5 = Product.new_good('Nokia', '2', 1.0, 5)
-# product_6 = Product.new_good('Nokia', '2', 23.0, 8)
-# category_1.add_product(product_5, product_6)
-#
-# product_1.price = float(input('Введите цену: '))
-# print(category_1.products)
-#
-# print(product_1 + product_2)
+
+print(category_1.get_product_by_name('Iphone 15'))
+
+print(category_2.products)
+print(category_1.products)
+print(product_1.demonstrate_abilities())
+
+product_5 = Product.new_good('Nokia', '2', 1.0, 5)
+product_6 = Product.new_good('Nokia', '2', 23.0, 8)
+category_1.add_product(product_5, product_6)
+
+product_1.price = float(input('Введите цену: '))
+print(category_1.products)
+
+print(product_1 + product_2)
