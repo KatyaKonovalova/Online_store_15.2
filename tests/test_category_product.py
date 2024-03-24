@@ -62,7 +62,7 @@ def test_add_different_classes():
     smartphone = Smartphone('test_category_s', 'test_desc_s', 1, 2, 1.3, 'test_model_s', 4, 'test_color_s')
     product = Product("test_name", "test_desc", 5, 6)
     with pytest.raises(ValueError):
-        smartphone + product
+        product + smartphone
 
 
 def test_add_same_classes():
